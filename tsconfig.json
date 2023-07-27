@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "baseUrl": "./src",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
+    "declaration": true,
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*", "typing.d.ts"],
+  "exclude": ["node_modules"],
+  "extends": "./paths.json"
+}

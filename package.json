@@ -1,0 +1,59 @@
+{
+  "name": "psyche-image-editor",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.4.5",
+    "@icon-park/react": "^1.4.2",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "antd": "5.5.2",
+    "axios": "^0.27.2",
+    "colord": "^2.9.3",
+    "craco-less": "^2.0.0",
+    "file-saver": "^2.0.5",
+    "psyche-editor-render": "^0.0.1",
+    "react": "^18.2.0",
+    "react-best-gradient-color-picker": "^2.1.11",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.7.4",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "craco start",
+    "dev": "npm start",
+    "build": "craco build",
+    "test": "craco test",
+    "prepare": "husky install",
+    "lint": "npx eslint src --ext .tsx"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/fabric": "^4.5.12",
+    "@types/file-saver": "^2.0.5",
+    "eslint": "^8.28.0",
+    "eslint-plugin-react": "^7.31.11",
+    "husky": "^8.0.2",
+    "react-app-rewired": "^2.2.1",
+    "sass": "^1.53.0"
+  }
+}

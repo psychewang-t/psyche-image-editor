@@ -1,0 +1,90 @@
+.file-title {
+  width: 52px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f2f4;
+  }
+}
+.dividing-line {
+  height: 1px;
+}
+.menu-item-box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-right: 15px;
+  .file-item {
+    line-height: 30px;
+  }
+}
+.head-file-import-wrapper {
+  width: 100%;
+  height: 200px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  position: relative;
+  .spin-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    flex-direction: column;
+    .text {
+      margin-top: 10px;
+    }
+  }
+  .icon-list {
+    margin-bottom: 20px;
+    img {
+      margin-right: 15px;
+    }
+  }
+}
+.head-file-import-figma-wrapper {
+  .title-box {
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: space-between;
+  }
+  .import-figma-box {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    .icon-box {
+      width: 54px;
+      height: 54px;
+      margin-right: 15px;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .get-id-box {
+      width: 300px;
+      margin-right: 15px;
+      .import-btn {
+        margin-left: 15px;
+        border-radius: 4px;
+      }
+    }
+  }
+  .tips-box {
+    display: flex;
+    justify-content: space-between;
+    .import-tips {
+      cursor: pointer;
+    }
+  }
+}

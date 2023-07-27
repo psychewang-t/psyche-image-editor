@@ -1,0 +1,48 @@
+.canvas-bg-wrapper {
+  .upload-image {
+    margin-top: 12px;
+  }
+  .bg-head-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .bg-body-wrapper {
+    width: 100%;
+    .bg-select-box {
+      position: relative;
+      border-radius: 6px;
+      padding: 2px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      .bg-title-item {
+        flex: 1;
+        text-align: center;
+        z-index: 2;
+        cursor: pointer;
+      }
+      .bg-title-bg {
+        position: absolute;
+        transition: all 0.3s;
+        width: 50%;
+        top: 2px;
+        bottom: 2px;
+        border-radius: 4px;
+        z-index: 1;
+      }
+    }
+  }
+  .bg-footer-color-box {
+    margin-top: 12px;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    padding: 8px;
+    .color-item {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

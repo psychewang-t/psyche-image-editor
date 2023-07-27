@@ -1,0 +1,97 @@
+.shadow-box {
+  margin-top: 12px;
+  .shadow-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .shadow-body {
+    height: 30px;
+    border-radius: 4px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 7px;
+    .color {
+      cursor: pointer;
+      width: 10%;
+      height: 20px;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    .color-box {
+      width: 294px;
+      max-height: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow-y: scroll;
+      .color-item {
+        cursor: pointer;
+        border-radius: 4px;
+        margin-right: 12px;
+        margin-top: 12px;
+        width: 26px;
+        height: 26px;
+        &:nth-child(8n) {
+          margin-right: 0px;
+        }
+      }
+    }
+    .i-icon {
+      cursor: pointer;
+      position: relative;
+      top: 2px;
+    }
+    .input-box {
+      display: flex;
+      align-items: center;
+      .i-icon-sun-one {
+        position: relative;
+        margin-right: 4px;
+        &:hover {
+          cursor: ew-resize;
+        }
+      }
+      .ant-input-number {
+        width: 80px;
+      }
+    }
+    .shadow-popover-box {
+      width: 200px;
+      .shadow-popover-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .shadow-popover-body {
+        .line-box {
+          margin-top: 12px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .angle-box {
+            width: 80px;
+            height: 30px;
+            padding: 0 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .icon-box {
+              width: 25px;
+              height: 25px;
+              border-radius: 4px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              .i-icon {
+                position: relative;
+                top: 3px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
