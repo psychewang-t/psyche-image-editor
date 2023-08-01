@@ -39,7 +39,7 @@ const App = () => {
       {canvasRef && <Head></Head>}
       {canvasRef && <Right></Right>}
       <div className="editor-render-wrapper">
-        <EditorRender ref={canvasDom} onModified={onModified} onSelect={onSelect}></EditorRender>
+        <EditorRender.canvas ref={canvasDom} onModified={onModified} onSelect={onSelect}></EditorRender.canvas>
         {canvasRef && <Window></Window>}
       </div>
     </div>

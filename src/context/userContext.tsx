@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import CanvasRef from 'psyche-editor-render';
+import editorRenderCanvas from 'psyche-editor-render/dist/Canvas';
 
 type Props = {
   children: ReactNode;
@@ -9,7 +9,7 @@ const IndexContext = React.createContext(null);
 IndexContext.displayName = 'IndexContext';
 
 export const IndexContextProvider = ({ children }: Props) => {
-  const [canvasRef, setCanvasRef] = useState<CanvasRef>(null);
+  const [canvasRef, setCanvasRef] = useState<editorRenderCanvas>(null);
   const [updateKey, setUpdateKey] = useState('');
   const [selectKey, setSelectKey] = useState('');
   const [selectType, setSelectType] = useState('default');

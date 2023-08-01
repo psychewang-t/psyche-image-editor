@@ -1,4 +1,4 @@
-import CanvasRef from 'psyche-editor-render';
+import editorRenderCanvas from 'psyche-editor-render/dist/Canvas';
 
 export interface IFont {
   name: string;
@@ -8,8 +8,8 @@ export interface IFont {
   woffUrl: string;
 }
 export interface IContext {
-  canvasRef?: CanvasRef;
-  setCanvasRef?: React.Dispatch<React.SetStateAction<CanvasRef>>;
+  canvasRef?: editorRenderCanvas;
+  setCanvasRef?: React.Dispatch<React.SetStateAction<editorRenderCanvas>>;
   updateKey?: string;
   setUpdateKey?: React.Dispatch<React.SetStateAction<string>>;
   selectKey?: string;
