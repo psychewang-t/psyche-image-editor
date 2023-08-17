@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { CircleFour } from '@icon-park/react';
 import { normalIconColor, activeIconColor } from '@/global';
 import { useIndexContext } from '@/context/userContext';
@@ -9,10 +8,6 @@ import './index.less';
 
 const Left = () => {
   const { leftTab, setLeftTab }: IContext = useIndexContext();
-
-  useEffect(() => {
-    console.log('111');
-  }, []);
 
   return (
     <div className="left-wrapper  global-common-bg-color1">
