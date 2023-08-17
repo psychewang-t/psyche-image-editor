@@ -4,11 +4,15 @@ import { useRequest } from 'ahooks';
 import { Input, Button } from 'antd';
 import { Square, RectangleOne, Rectangle } from '@icon-park/react';
 import { normalIconColor } from '@/global';
+import { useIndexContext } from '@/context/userContext';
 
 import { Theme } from '@icon-park/react/lib/runtime';
+import { IContext } from '@/interface';
 import './index.less';
 
 const Text2Img = () => {
+  const { canvasRef }: IContext = useIndexContext();
+
   const [dataList, setDataList] = useState([]);
   const [currentSize, setCurrentSize] = useState('square');
   const [textAreaValue, setTextAreaValue] = useState('');
@@ -54,6 +58,10 @@ const Text2Img = () => {
     if (currentSize === 'ver') {
       return { width: 512, height: 768 };
     }
+  };
+
+  const addImg = (url: string) => {
+    canvasRef.handler.commonHandler.addImg(url);
   };
 
   const getProps = () => ({
@@ -133,7 +141,12 @@ const Text2Img = () => {
       <div className="result-list">
         {dataList.map((item, index) => (
           <div className="img-box global-common-bg-color" key={index}>
-            <img src={item} />
+            <img
+              src={item}
+              onClick={() => {
+                addImg(item);
+              }}
+            />
           </div>
         ))}
       </div>
