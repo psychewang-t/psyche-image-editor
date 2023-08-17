@@ -4,6 +4,7 @@ import { IContext } from '@/interface';
 import { Dropdown, Slider, MenuProps } from 'antd';
 import { useEffect, useState } from 'react';
 import { SliderMarks } from 'antd/lib/slider';
+import { normalIconColor } from '@/global';
 
 const LayerBtn = () => {
   const { canvasRef, selectKey }: IContext = useIndexContext();
@@ -52,7 +53,7 @@ const LayerBtn = () => {
       key: 'layer',
       label: (
         <div className="layer-dropdown-item">
-          <ArrowDown onClick={() => handleLayerChange(currentLayerIndex - 1)} />
+          <ArrowDown fill={normalIconColor} onClick={() => handleLayerChange(currentLayerIndex - 1)} />
           <Slider
             className="slider"
             min={1}
@@ -62,7 +63,7 @@ const LayerBtn = () => {
             onChange={handleLayerChange}
             marks={marks}
           />
-          <ArrowUp onClick={() => handleLayerChange(currentLayerIndex + 1)} />
+          <ArrowUp fill={normalIconColor} onClick={() => handleLayerChange(currentLayerIndex + 1)} />
         </div>
       )
     }
@@ -81,7 +82,7 @@ const LayerBtn = () => {
       open={open}
       overlayClassName="layer-dropdwon-wrapper"
     >
-      <Layers />
+      <Layers fill={normalIconColor} />
     </Dropdown>
   );
 };

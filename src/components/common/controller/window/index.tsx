@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Minus, PlusCross, OverallReduction, ScreenshotOne } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
 import { Tooltip } from 'antd';
+import { normalIconColor } from '@/global';
 
 import './index.less';
 
@@ -36,7 +37,7 @@ const Window = () => {
       <Minus
         theme="filled"
         size="24"
-        fill="#636c78"
+        fill={normalIconColor}
         strokeWidth={6}
         onClick={() => {
           canvasRef.handler.zoomHandler.zoomOut();
@@ -46,7 +47,7 @@ const Window = () => {
       <PlusCross
         theme="filled"
         size="20"
-        fill="#636c78"
+        fill={normalIconColor}
         strokeWidth={1}
         onClick={() => {
           canvasRef.handler.zoomHandler.zoomIn();
@@ -58,7 +59,7 @@ const Window = () => {
         <OverallReduction
           theme="filled"
           size="30"
-          fill="#636c78"
+          fill={normalIconColor}
           strokeWidth={2}
           onClick={() => {
             canvasRef.handler.zoomHandler.zooToFit();
@@ -71,7 +72,7 @@ const Window = () => {
         <ScreenshotOne
           theme="filled"
           size="30"
-          fill="#636c78"
+          fill={normalIconColor}
           strokeWidth={2}
           onClick={() => {
             canvasRef.handler.zoomHandler.zoomOneToOne();

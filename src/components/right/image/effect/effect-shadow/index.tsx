@@ -3,6 +3,7 @@ import { Popover, InputNumber } from 'antd';
 import { useEffect, useState, useRef } from 'react';
 import ColorPicker from 'react-best-gradient-color-picker';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor, disabledIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -187,7 +188,7 @@ const Shadow = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
           <InputNumber
@@ -221,7 +222,7 @@ const Shadow = () => {
                   }}
                   theme="outline"
                   size="24"
-                  fill="#636c78"
+                  fill={disabledIconColor}
                   strokeWidth={3}
                 />
               </div>
@@ -282,7 +283,7 @@ const Shadow = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         </Popover>
@@ -294,7 +295,7 @@ const Shadow = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}
@@ -311,7 +312,7 @@ const Shadow = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}

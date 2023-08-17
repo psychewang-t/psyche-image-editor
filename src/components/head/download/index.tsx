@@ -4,6 +4,7 @@ import { Dropdown, Button, Select, MenuProps } from 'antd';
 import FileSaver from 'file-saver';
 import { useIndexContext } from '@/context/userContext';
 import { IContext } from '@/interface';
+import { disabledIconColor } from '@/global';
 
 import './index.less';
 
@@ -34,7 +35,7 @@ const Download = () => {
             <CloseSmall
               theme="filled"
               size="24"
-              fill="#b4b8bf"
+              fill={disabledIconColor}
               strokeWidth={3}
               onClick={() => {
                 setShowDropdown(false);

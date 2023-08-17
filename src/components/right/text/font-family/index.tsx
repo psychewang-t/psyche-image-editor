@@ -3,6 +3,7 @@ import { useIndexContext } from '@/context/userContext';
 import { Down, LoadingThree, ExpressionlessFace } from '@icon-park/react';
 import { Popover, Input, message } from 'antd';
 import { setTemplateFontData } from '@/utils/font';
+import { normalIconColor } from '@/global';
 
 import { fontList } from '@/config/font';
 
@@ -116,7 +117,9 @@ const FontFamily = () => {
               }}
             >
               <img src={item.thumbUrl} />
-              {loadingIndex === index && <LoadingThree theme="outline" size="18" fill="#636c78" strokeWidth={3} />}
+              {loadingIndex === index && (
+                <LoadingThree theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />
+              )}
             </div>
           ))}
 
@@ -132,12 +135,14 @@ const FontFamily = () => {
               }}
             >
               <img src={item.thumbUrl} />
-              {loadingIndex === index && <LoadingThree theme="outline" size="18" fill="#636c78" strokeWidth={3} />}
+              {loadingIndex === index && (
+                <LoadingThree theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />
+              )}
             </div>
           ))}
         {search && searchData?.length === 0 && (
           <div className="search-data-null">
-            <ExpressionlessFace theme="outline" size="30" fill="#636c78" strokeWidth={3} />
+            <ExpressionlessFace theme="outline" size="30" fill={normalIconColor} strokeWidth={3} />
             <div className="text global-common-tips">未查到字体</div>
           </div>
         )}
@@ -159,7 +164,7 @@ const FontFamily = () => {
             {currentThumb && <img src={currentThumb} />}
             {!currentThumb && <span>默认字体</span>}
           </div>
-          <Down theme="outline" size="18" fill="#636c78" strokeWidth={3} />
+          <Down theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />
         </div>
       </div>
     </Popover>

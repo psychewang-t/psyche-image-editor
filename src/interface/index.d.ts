@@ -18,4 +18,6 @@ export interface IContext {
   setSelectType?: React.Dispatch<React.SetStateAction<string>>;
   templateFont?: IFont[];
   setTemplateFont?: React.Dispatch<React.SetStateAction<IFont[]>>;
+  leftTab?: string;
+  setLeftTab?: React.Dispatch<React.SetStateAction<string>>;
 }

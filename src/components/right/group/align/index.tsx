@@ -1,6 +1,7 @@
 import { AlignLeft, AlignRight, AlignHorizontally, AlignTop, AlignVertically, AlignBottom } from '@icon-park/react';
 import { Tooltip } from 'antd';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
 
 import './index.less';
 
@@ -16,7 +17,7 @@ const Align = () => {
     },
     theme: 'outline' as Theme,
     size: '18',
-    fill: '#333'
+    fill: normalIconColor
   });
 
   const ALIGN_CONFIG = [

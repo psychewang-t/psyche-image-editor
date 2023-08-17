@@ -6,7 +6,7 @@ import Figure from '@/components/head/figure';
 import './index.less';
 
 const Head = () => (
-  <div className="head-wrapper global-common-bg-color1">
+  <div className="head-wrapper global-common-bg-color1 global-border-bottom">
     <div className="left">
       <File></File>
     </div>

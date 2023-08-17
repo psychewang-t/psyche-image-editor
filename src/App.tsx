@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import EditorRender from 'psyche-editor-render';
 import Head from '@/components/head';
 import Right from '@/components/right';
+import Left from '@/components/left';
 import Window from '@/components/common/controller/window';
 import { useIndexContext } from '@/context/userContext';
 import { IContext } from '@/interface';
@@ -12,7 +13,7 @@ import './App.less';
 
 const App = () => {
   const canvasDom = useRef(null);
-  const { canvasRef, setCanvasRef, setUpdateKey, setSelectKey, setSelectType }: IContext = useIndexContext();
+  const { canvasRef, setCanvasRef, setUpdateKey, setSelectKey, setSelectType, leftTab }: IContext = useIndexContext();
 
   useEffect(() => {
     if (!canvasDom) {
@@ -38,7 +39,8 @@ const App = () => {
     <div className="App">
       {canvasRef && <Head></Head>}
       {canvasRef && <Right></Right>}
-      <div className="editor-render-wrapper">
+      {canvasRef && <Left></Left>}
+      <div className="editor-render-wrapper" style={{ left: leftTab === 'default' ? '70px' : '400px' }}>
         <EditorRender.canvas ref={canvasDom} onModified={onModified} onSelect={onSelect}></EditorRender.canvas>
         {canvasRef && <Window></Window>}
       </div>

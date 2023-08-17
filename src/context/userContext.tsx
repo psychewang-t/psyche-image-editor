@@ -14,6 +14,7 @@ export const IndexContextProvider = ({ children }: Props) => {
   const [selectKey, setSelectKey] = useState('');
   const [selectType, setSelectType] = useState('default');
   const [templateFont, setTemplateFont] = useState([]);
+  const [leftTab, setLeftTab] = useState('default');
 
   return (
     <IndexContext.Provider
@@ -27,7 +28,9 @@ export const IndexContextProvider = ({ children }: Props) => {
         selectType,
         setSelectType,
         templateFont,
-        setTemplateFont
+        setTemplateFont,
+        leftTab,
+        setLeftTab
       }}
     >
       {children}

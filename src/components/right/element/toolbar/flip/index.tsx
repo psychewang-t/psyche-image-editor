@@ -3,6 +3,7 @@ import { useIndexContext } from '@/context/userContext';
 import { IContext } from '@/interface';
 import { Dropdown, MenuProps } from 'antd';
 import { useState } from 'react';
+import { normalIconColor } from '@/global';
 
 const FlipBtn = () => {
   const { canvasRef }: IContext = useIndexContext();
@@ -24,7 +25,7 @@ const FlipBtn = () => {
             onClick('flipX');
           }}
         >
-          <FlipHorizontally />
+          <FlipHorizontally fill={normalIconColor} />
           <span>水平翻转</span>
         </div>
       )
@@ -38,7 +39,7 @@ const FlipBtn = () => {
             onClick('flipY');
           }}
         >
-          <FlipVertically />
+          <FlipVertically fill={normalIconColor} />
           <span>垂直翻转</span>
         </div>
       )
@@ -51,7 +52,7 @@ const FlipBtn = () => {
 
   return (
     <Dropdown menu={{ items }} placement="bottom" trigger={['click']} onOpenChange={handleOpenChange} open={open}>
-      <FlipHorizontally />
+      <FlipHorizontally fill={normalIconColor} />
     </Dropdown>
   );
 };

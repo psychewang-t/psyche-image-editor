@@ -1,5 +1,7 @@
 import { DeleteOne } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
+
 import { IContext } from '@/interface';
 
 const Delete = () => {
@@ -9,7 +11,7 @@ const Delete = () => {
     canvasRef.handler.commonHandler.deleteObject();
   };
 
-  return <DeleteOne theme="outline" size="24" fill="#333" onClick={() => deleteObject()} />;
+  return <DeleteOne theme="outline" size="24" fill={normalIconColor} onClick={() => deleteObject()} />;
 };
 
 export default Delete;

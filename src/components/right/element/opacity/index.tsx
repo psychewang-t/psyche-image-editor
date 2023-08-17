@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { InputNumber, Slider } from 'antd';
 import { Mosaic } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
+
 import { IContext } from '@/interface';
 import './index.less';
 
@@ -26,7 +28,7 @@ const Opacity = () => {
   return (
     <>
       <div className="global-common-bg-color opacity-box">
-        <Mosaic theme="outline" size="16" strokeWidth={6} className="global-icon-hover" />
+        <Mosaic theme="outline" fill={normalIconColor} size="16" strokeWidth={6} className="global-icon-hover" />
         <Slider
           min={0}
           max={100}

@@ -17,6 +17,7 @@ import { Dropdown, MenuProps } from 'antd';
 import { Theme } from '@icon-park/react/lib/runtime';
 import { useIndexContext } from '@/context/userContext';
 import { IContext } from '@/interface';
+import { normalIconColor } from '@/global';
 
 import './index.less';
 
@@ -29,7 +30,7 @@ const Figure = () => {
     theme: 'outline' as Theme,
     size: '24',
     strokeWidth: 3,
-    fill: '#33383e'
+    fill: normalIconColor
   });
 
   const items: MenuProps['items'] = [
@@ -179,8 +180,8 @@ const Figure = () => {
     <div className="figure-wrapper">
       <Dropdown menu={{ items }} trigger={['click']}>
         <div className="icon-wrapper">
-          <Square theme="outline" size="24" fill="#33383e" strokeWidth={3} />
-          <Down theme="outline" size="18" fill="#33383e" strokeWidth={3} />
+          <Square theme="outline" size="24" fill={normalIconColor} strokeWidth={3} />
+          <Down theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />
         </div>
       </Dropdown>
     </div>

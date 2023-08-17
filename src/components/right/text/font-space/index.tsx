@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { InputNumber, Tooltip } from 'antd';
 import { AutoLineWidth } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -33,7 +34,7 @@ const FontSpace = () => {
         <AutoLineWidth
           theme="outline"
           size="20"
-          fill="#636c78"
+          fill={normalIconColor}
           strokeWidth={3}
           onMouseDown={(e) => {
             const startX = e.clientX;

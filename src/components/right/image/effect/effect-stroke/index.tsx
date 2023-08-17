@@ -17,6 +17,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useIndexContext } from '@/context/userContext';
 import ColorPicker, { useColorPicker } from 'react-best-gradient-color-picker';
 import { colord } from 'colord';
+import { normalIconColor, disabledIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -235,7 +236,7 @@ const Stroke = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
           <InputNumber
@@ -261,7 +262,7 @@ const Stroke = () => {
                 <CloseSmall
                   theme="outline"
                   size="24"
-                  fill="#636c78"
+                  fill={disabledIconColor}
                   strokeWidth={3}
                   onClick={() => {
                     setShowStrokeStylePopover(false);
@@ -276,7 +277,7 @@ const Stroke = () => {
                     size="small"
                     bordered={false}
                     style={{ width: 80, backgroundColor: '#f6f7f9' }}
-                    suffixIcon={<Down theme="outline" size="18" fill="#636c78" strokeWidth={3} />}
+                    suffixIcon={<Down theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />}
                     onChange={(val) => {
                       setLineStyle(val);
                       if (val === 'dash') {
@@ -343,15 +344,15 @@ const Stroke = () => {
                         options={[
                           {
                             value: 'butt',
-                            icon: <EndpointFlat theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                            icon: <EndpointFlat theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                           },
                           {
                             value: 'square',
-                            icon: <EndpointSquare theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                            icon: <EndpointSquare theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                           },
                           {
                             value: 'round',
-                            icon: <EndpointRound theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                            icon: <EndpointRound theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                           }
                         ]}
                       />
@@ -371,15 +372,15 @@ const Stroke = () => {
                     options={[
                       {
                         value: 'miter',
-                        icon: <NodeFlat theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                        icon: <NodeFlat theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                       },
                       {
                         value: 'round',
-                        icon: <NodeRound theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                        icon: <NodeRound theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                       },
                       {
                         value: 'bevel',
-                        icon: <NodeSquare theme="outline" size="20" fill="#636c78" strokeWidth={3} />
+                        icon: <NodeSquare theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                       }
                     ]}
                   />
@@ -395,7 +396,7 @@ const Stroke = () => {
           <More
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
             onClick={() => {
               setShowStrokeStylePopover(!showStrokeStylePopover);
@@ -410,7 +411,7 @@ const Stroke = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}
@@ -429,7 +430,7 @@ const Stroke = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}

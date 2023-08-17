@@ -3,6 +3,7 @@ import { Popover, Switch, Radio, Button, Slider, InputNumber } from 'antd';
 import { useIndexContext } from '@/context/userContext';
 import SliderDom from '@/components/right/image/filter/slider';
 import SwitchDom from '@/components/right/image/filter/switch';
+import { normalIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -217,7 +218,7 @@ const ImageFilter = () => {
         getPopupContainer={(dom) => dom}
       >
         <div className="global-common-title global-common-bg-color btn">
-          <ColorFilter theme="outline" size="18" fill="#444950" strokeWidth={4} />
+          <ColorFilter theme="outline" size="18" fill={normalIconColor} strokeWidth={4} />
           滤镜
         </div>
       </Popover>

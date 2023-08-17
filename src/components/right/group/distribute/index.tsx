@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { DistributeHorizontally, DistributeVertically } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
 
-import './index.less';
 import { IContext } from '@/interface';
+import './index.less';
 
 const Distribute = () => {
   const { canvasRef, selectKey }: IContext = useIndexContext();
@@ -37,7 +38,7 @@ const Distribute = () => {
           canvasRef.handler.alignHandler.distributeHor();
         }}
       >
-        <DistributeHorizontally theme="outline" size="18" fill="#333" />
+        <DistributeHorizontally theme="outline" size="18" fill={normalIconColor} />
         <div className="name">水平分布</div>
       </div>
       <div
@@ -46,7 +47,7 @@ const Distribute = () => {
           canvasRef.handler.alignHandler.distributeVer();
         }}
       >
-        <DistributeVertically theme="outline" size="18" fill="#333" />
+        <DistributeVertically theme="outline" size="18" fill={normalIconColor} />
         <div className="name">垂直分布</div>
       </div>
     </div>

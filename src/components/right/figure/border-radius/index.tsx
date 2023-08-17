@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { InputNumber, Slider } from 'antd';
 import { NodeRound } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
+
 import { IContext } from '@/interface';
 import './index.less';
 
@@ -43,7 +45,7 @@ const BorderRadius = () => {
         <span className="global-common-third-title">圆角</span>
       </div>
       <div className="global-common-bg-color border-radius-box">
-        <NodeRound theme="outline" size="16" strokeWidth={4} className="global-icon-hover" />
+        <NodeRound fill={normalIconColor} theme="outline" size="16" strokeWidth={4} className="global-icon-hover" />
         <Slider min={0} max={max} onChange={handleSetOpacity} value={borderRadius} className="opacity-slider" />
         <InputNumber
           min={0}

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Return, GoOn } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
 import { IContext } from '@/interface';
+import { normalIconColor, disabledIconColor } from '@/global';
 
 import './index.less';
 
@@ -36,7 +37,7 @@ const CanDo = () => {
         onClick={() => {
           canvasRef.handler.transactionHandler.undo();
         }}
-        fill={hasUndo ? '#33383e' : '#aeafb1'}
+        fill={hasUndo ? normalIconColor : disabledIconColor}
       />
       <GoOn
         theme="outline"
@@ -44,7 +45,7 @@ const CanDo = () => {
         onClick={() => {
           canvasRef.handler.transactionHandler.redo();
         }}
-        fill={hasRedo ? '#33383e' : '#aeafb1'}
+        fill={hasRedo ? normalIconColor : disabledIconColor}
       />
     </div>
   );

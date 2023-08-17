@@ -1,5 +1,6 @@
 import { Tailoring } from '@icon-park/react';
 import { useIndexContext } from '@/context/userContext';
+import { normalIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -16,7 +17,7 @@ const Crop = () => {
           canvasRef.handler.cropImageHandler.cropStart(obj);
         }}
       >
-        <Tailoring theme="outline" size="18" fill="#444950" strokeWidth={4} />
+        <Tailoring theme="outline" size="18" fill={normalIconColor} strokeWidth={4} />
         裁剪
       </div>
     </div>

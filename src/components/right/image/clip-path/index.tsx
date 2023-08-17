@@ -2,6 +2,7 @@ import { useIndexContext } from '@/context/userContext';
 import { Plus, Down, SettingTwo, CloseSmall } from '@icon-park/react';
 import { useEffect, useState } from 'react';
 import { Popover, Segmented, Slider, InputNumber } from 'antd';
+import { normalIconColor } from '@/global';
 
 import { figureList, imgList } from '@/components/right/image/clip-path/config';
 
@@ -218,7 +219,7 @@ const ClipPath = () => {
         <CloseSmall
           theme="outline"
           size="24"
-          fill="#636c78"
+          fill={normalIconColor}
           strokeWidth={3}
           onClick={() => {
             setOpenSetPanel(false);
@@ -275,6 +276,7 @@ const ClipPath = () => {
               theme="outline"
               size="30"
               strokeWidth={2}
+              fill={normalIconColor}
             />
           )}
           {selectUrl && (
@@ -288,7 +290,7 @@ const ClipPath = () => {
             >
               <div className="thumb-box">
                 <div className="set">
-                  <SettingTwo theme="outline" size="20" fill="#000" strokeWidth={3} />
+                  <SettingTwo theme="outline" size="20" fill={normalIconColor} strokeWidth={3} />
                 </div>
                 <img src={selectUrl}></img>
               </div>
@@ -305,7 +307,7 @@ const ClipPath = () => {
         >
           <div className="right">
             <span className="global-common-title">添加蒙版</span>
-            <Down theme="outline" size="16" fill="#636c78" strokeWidth={2} />
+            <Down theme="outline" size="16" fill={normalIconColor} strokeWidth={2} />
           </div>
         </Popover>
       </div>

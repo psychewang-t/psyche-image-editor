@@ -5,6 +5,7 @@ import { IContext, IFont } from '@/interface';
 import { Check } from '@icon-park/react';
 import { fontList } from '@/config/font';
 import { setTemplateFontData } from '@/utils/font';
+import { activeIconColor } from '@/global';
 
 import './index.less';
 import { IJsonData } from 'psyche-editor-render/dist/interface';
@@ -145,10 +146,10 @@ const File = () => {
       },
       label: (
         <span className="menu-item-box">
-          <span className="global-second-title file-item" style={{ color: selectRuler ? '#2254f4' : '#33383e' }}>
+          <span className="global-second-title file-item" style={{ color: selectRuler ? activeIconColor : '' }}>
             显示标尺
           </span>
-          {selectRuler && <Check theme="filled" size="20" fill={'#2254f4'} strokeWidth={3} />}
+          {selectRuler && <Check theme="filled" size="20" fill={activeIconColor} strokeWidth={3} />}
         </span>
       )
     },
@@ -159,10 +160,10 @@ const File = () => {
       },
       label: (
         <span className="menu-item-box">
-          <span className="global-second-title file-item" style={{ color: selectGuideline ? '#2254f4' : '#33383e' }}>
+          <span className="global-second-title file-item" style={{ color: selectGuideline ? activeIconColor : '' }}>
             显示参考线
           </span>
-          {selectGuideline && <Check theme="filled" size="20" fill={'#2254f4'} strokeWidth={3} />}
+          {selectGuideline && <Check theme="filled" size="20" fill={activeIconColor} strokeWidth={3} />}
         </span>
       )
     }

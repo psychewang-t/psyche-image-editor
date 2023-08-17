@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useIndexContext } from '@/context/userContext';
 import ColorPicker, { useColorPicker } from 'react-best-gradient-color-picker';
 import { colord } from 'colord';
+import { normalIconColor, disabledIconColor } from '@/global';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -223,7 +224,7 @@ const Fill = () => {
                     }}
                     theme="outline"
                     size="24"
-                    fill="#636c78"
+                    fill={disabledIconColor}
                     strokeWidth={3}
                   />
                 </div>
@@ -283,7 +284,7 @@ const Fill = () => {
               }}
               theme="outline"
               size="20"
-              fill="#636c78"
+              fill={normalIconColor}
               strokeWidth={3}
             />
           </Popover>
@@ -294,7 +295,7 @@ const Fill = () => {
           size="small"
           bordered={false}
           style={{ width: 160 }}
-          suffixIcon={<Down theme="outline" size="18" fill="#636c78" strokeWidth={3} />}
+          suffixIcon={<Down theme="outline" size="18" fill={normalIconColor} strokeWidth={3} />}
           onChange={(val) => {
             setFillType(val);
           }}
@@ -317,7 +318,7 @@ const Fill = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}
@@ -339,7 +340,7 @@ const Fill = () => {
             }}
             theme="outline"
             size="20"
-            fill="#636c78"
+            fill={normalIconColor}
             strokeWidth={3}
           />
         )}
