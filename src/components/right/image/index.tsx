@@ -4,6 +4,8 @@ import Effect from '@/components/right/image/effect';
 import BorderRadius from '@/components/right/image/border-radius';
 import ClipPath from '@/components/right/image/clip-path';
 import Replace from '@/components/right/image/replace';
+import Cutout from '@/components/right/image/cutout';
+import Restore from '@/components/right/image/restore';
 
 import './index.less';
 
@@ -17,6 +19,10 @@ const Image = () => (
       <div className="line-box">
         <Filter></Filter>
         <Crop></Crop>
+      </div>
+      <div className="line-box">
+        <Cutout></Cutout>
+        <Restore></Restore>
       </div>
       <div className="global-right-border-line"></div>
       <Effect></Effect>

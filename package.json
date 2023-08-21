@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@cloudbase/js-sdk": "^1.7.2",
     "@craco/craco": "^6.4.5",
     "@icon-park/react": "^1.4.2",
     "@testing-library/jest-dom": "^5.16.4",
@@ -13,6 +14,7 @@
     "axios": "^0.27.2",
     "colord": "^2.9.3",
     "craco-less": "^2.0.0",
+    "crypto-js": "^4.1.1",
     "file-saver": "^2.0.5",
     "psyche-editor-render": "^0.0.3",
     "react": "^18.2.0",
@@ -49,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.1.1",
     "@types/fabric": "^4.5.12",
     "@types/file-saver": "^2.0.5",
     "eslint": "^8.28.0",

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { text2img } from '@/server';
 import { useRequest } from 'ahooks';
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
 import { Square, RectangleOne, Rectangle } from '@icon-park/react';
 import { normalIconColor } from '@/global';
 import { useIndexContext } from '@/context/userContext';
@@ -21,6 +21,7 @@ const Text2Img = () => {
   const { data, loading, run } = useRequest(text2img, {
     manual: true,
     onError: (e: Error) => {
+      message.error('文生图失败');
       console.error('文生图失败', e);
     }
   });
@@ -48,15 +49,15 @@ const Text2Img = () => {
   // 获取生成尺寸
   const getSize = () => {
     if (currentSize === 'square') {
-      return { width: 512, height: 512 };
+      return { width: 1024, height: 1024 };
     }
 
     if (currentSize === 'hor') {
-      return { width: 768, height: 512 };
+      return { width: 1024, height: 768 };
     }
 
     if (currentSize === 'ver') {
-      return { width: 512, height: 768 };
+      return { width: 768, height: 1024 };
     }
   };
 

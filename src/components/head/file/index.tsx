@@ -198,10 +198,10 @@ const File = () => {
               <>
                 <div className="icon-list">
                   <img src="https://cdn.dancf.com/editor/editor-design/prod/svg/icon_psdimport.37e6f23e.svg" alt="" />
-                  <img
+                  {/* <img
                     src="https://cdn.dancf.com/editor/editor-design/prod/svg/icon_sketchimport.cd951cf1.svg"
                     alt=""
-                  />
+                  /> */}
                 </div>
                 <div className="global-common-tips">将文件拖拽到此处，或者选择文件</div>
               </>

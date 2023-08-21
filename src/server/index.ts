@@ -14,3 +14,10 @@ export async function text2img(data: IText2ImgData) {
 
   return axiosData.data;
 }
+
+// 抠图接口
+export async function cutout(data: { image: string }) {
+  const axiosData = await axios.post(`${url}/cutout`, data);
+
+  return axiosData.data;
+}
