@@ -21,3 +21,11 @@ export async function cutout(data: { image: string }) {
 
   return axiosData.data;
 }
+
+// 修复接口
+export async function restore(data: { image: string; mask: string }) {
+  // eslint-disable-next-line no-magic-numbers
+  const axiosData = await axios.post(`${url}/restore`, data, { timeout: 40 * 1000 });
+
+  return axiosData.data;
+}

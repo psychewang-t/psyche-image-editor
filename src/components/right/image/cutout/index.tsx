@@ -16,6 +16,7 @@ const Cutout = () => {
   const { data, loading, run } = useRequest(cutout, {
     manual: true,
     onError: (e: Error) => {
+      message.destroy();
       message.error('扣图失败');
       console.error('扣图失败', e);
     }

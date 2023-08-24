@@ -12,4 +12,60 @@
     margin-top: 4px;
     margin-right: 4px;
   }
+  .image-restore-modal-title {
+    width: 100%;
+    display: flex;
+    position: relative;
+    top: -4px;
+    .left-title {
+      width: 20%;
+    }
+    .control-wrapper {
+      width: 60%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .item-wrapper {
+        cursor: pointer;
+        width: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .pen-wrapper {
+        width: 100px;
+      }
+    }
+  }
+  .image-wrapper {
+    max-width: 70vw;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    .width {
+      width: 100%;
+    }
+    .height {
+      height: 100%;
+    }
+  }
+  .panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .panel-box {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      opacity: 0.8;
+    }
+  }
 }
