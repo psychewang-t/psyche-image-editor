@@ -1,0 +1,132 @@
+::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+.image-inpainted-wrapper {
+  .btn {
+    cursor: pointer;
+    width: 108px;
+    height: 42px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .i-icon {
+    margin-top: 4px;
+    margin-right: 4px;
+  }
+  .modal-wrapper {
+    width: 100%;
+    display: flex;
+    .image-inpainted-left-wrapper {
+      width: 50%;
+      height: 100%;
+      .util-box {
+        display: flex;
+        width: 100%;
+        padding: 0 10%;
+        justify-content: space-between;
+        align-items: center;
+        .item-wrapper {
+          cursor: pointer;
+          width: 80px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .pen-wrapper {
+          width: 100px;
+        }
+      }
+      .img-box {
+        height: 70vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        width: 100%;
+        left: 0;
+        margin-top: 14px;
+        background: linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0.4) 25%,
+            transparent 25%,
+            transparent 75%,
+            rgba(0, 0, 0, 0.4) 75%,
+            rgba(0, 0, 0, 0.4) 100%
+          ),
+          linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0.4) 25%,
+            transparent 25%,
+            transparent 75%,
+            rgba(0, 0, 0, 0.4) 75%,
+            rgba(0, 0, 0, 0.4) 100%
+          );
+        /* 背景大小必须小于盒子的大小 */
+        background-size: 20px 20px;
+        /* 第二种渐变的偏移必须为为背景大小的一半 */
+        background-position: 0 0, 10px 10px;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          display: block;
+          margin: auto;
+        }
+        .panel {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .panel-box {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+    .image-inpainted-right-wrapper {
+      width: 50%;
+      padding: 0 20px;
+      position: relative;
+      .btn-box {
+        margin-top: 12px;
+      }
+      .list-box {
+        margin-top: 20px;
+        right: 20px;
+        left: 20px;
+        max-height: 65%;
+        overflow-y: scroll;
+        position: absolute;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 5px;
+        .list {
+          cursor: pointer;
+          height: 155px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 4px;
+          img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+          }
+        }
+        .active {
+          border-width: 1px;
+          border-style: solid;
+        }
+      }
+    }
+  }
+}

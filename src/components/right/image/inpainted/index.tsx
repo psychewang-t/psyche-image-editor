@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
-import { ClearFormat, Back, Next, Refresh, Pencil, DownOne } from '@icon-park/react';
+import { useEffect, useState, useRef } from 'react';
+import { BackgroundColor, Back, Next, Refresh, Pencil, DownOne } from '@icon-park/react';
 import { normalIconColor, disabledIconColor } from '@/global';
-import { base64ToUrlAsync, getImgUrl } from '@/utils/file';
-import { Modal, message, Dropdown, MenuProps, Slider } from 'antd';
 import { useIndexContext } from '@/context/userContext';
+import { Modal, Dropdown, MenuProps, Slider, message, Input, Button } from 'antd';
 import dom2Image from 'dom-to-image-improved';
-import { restore } from '@/server';
+import { base64ToUrlAsync, getImgUrl } from '@/utils/file';
 import { useRequest } from 'ahooks';
+import { inpainted, getAITaskResult } from '@/server';
 
 import { IContext } from '@/interface';
 import './index.less';
@@ -14,11 +14,12 @@ import './index.less';
 const defaultPenWidth = 30;
 const defaultPanelSize = 500;
 
-const Cutout = () => {
+const Inpainted = () => {
   const { canvasRef }: IContext = useIndexContext();
 
   const panelBox = useRef(null);
   const imgDom = useRef(null);
+  const imgWrapperDom = useRef(null);
 
   const [showModal, setShowModal] = useState(false);
   const [currentUrl, setCurrentUrl] = useState('');
@@ -30,30 +31,57 @@ const Cutout = () => {
   const [panelWidth, setPanelWidth] = useState(defaultPanelSize);
   const [panelHeight, setPanelHeight] = useState(defaultPanelSize);
 
+  const [textareaValue, setTextareaValue] = useState('');
+
+  const [listData, setListData] = useState([]);
+  const [selectIndex, setSelectIndex] = useState(-1);
+
   const [transaction, setTransaction] = useState([]);
 
-  const { data, loading, run } = useRequest(restore, {
+  const {
+    data: createTaskData,
+    loading: createTaskLoading,
+    run: createTaskRun
+  } = useRequest(inpainted, {
     manual: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (e: any) => {
       message.destroy();
-      if (e.response.data.code === 'ETIMEDOUT') {
-        const showTime = 5;
-        message.info('模型正在启动中，请3～5分钟后重试！', showTime);
-      } else {
-        message.error('消除失败');
-      }
+      console.error('重绘任务创建失败！', e);
+    }
+  });
 
-      console.error('消除失败', e);
+  const {
+    data: taskResultData,
+    loading: taskResultLoading,
+    run: taskResultRun
+  } = useRequest(getAITaskResult, {
+    manual: true,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (e: any) => {
+      message.destroy();
+      console.error('重绘任务结果获取失败！', e);
     }
   });
 
   useEffect(() => {
-    if (!loading && data) {
-      canvasRef.handler.commonHandler.setProperty('src', data);
+    if (!taskResultLoading && taskResultData) {
       message.destroy();
+      message.success('重绘成功！');
+      setListData(listData.concat(taskResultData));
     }
-  }, [loading]);
+  }, [taskResultData, taskResultLoading]);
+
+  useEffect(() => {
+    if (!createTaskLoading && createTaskData) {
+      if (createTaskData?.status === 'starting') {
+        taskResultRun(createTaskData.id);
+      } else {
+        message.destroy();
+        message.error('任务创建失败，请重试！');
+      }
+    }
+  }, [createTaskData, createTaskLoading]);
 
   const initModal = () => {
     const currentObj = canvasRef.handler.canvas.getActiveObject() as fabric.Image;
@@ -91,7 +119,7 @@ const Cutout = () => {
   };
 
   // 创建出画点的图片
-  const drawImage = () => {
+  const drawImage = async () => {
     const node = panelBox.current;
 
     return new Promise<string>((resolve) => {
@@ -149,13 +177,20 @@ const Cutout = () => {
   };
 
   // 开始修复
-  const beginRestore = async () => {
-    message.loading('正在消除中', 0);
-    setShowModal(false);
+  const beginInpainted = async () => {
+    if (!textareaValue) {
+      message.warning('请输入prompt后重试！');
+
+      return;
+    }
+
+    message.loading('正在重绘中...', 0);
+
     const maskImgBase64 = await drawImage();
-    const maskImgUrl = await base64ToUrlAsync(maskImgBase64, 'restoreMaskUpload');
-    const imgUrl = await getImgUrl(currentUrl, 'restore');
-    run({ image: imgUrl, mask: maskImgUrl });
+    const maskImgUrl = await base64ToUrlAsync(maskImgBase64, 'inpaintedMaskUpload');
+    const imageUrl = await getImgUrl(currentUrl, 'inpainted');
+
+    createTaskRun({ prompt: textareaValue, image: imageUrl, mask: maskImgUrl });
   };
 
   const items: MenuProps['items'] = [
@@ -166,22 +201,38 @@ const Cutout = () => {
   ];
 
   return (
-    <div className="image-restore-wrapper">
+    <div className="image-inpainted-wrapper">
       <div
         className="global-common-title global-common-bg-color btn"
         onClick={() => {
           initModal();
         }}
       >
-        <ClearFormat theme="outline" size="18" fill={normalIconColor} strokeWidth={4} />
-        消除
+        <BackgroundColor theme="outline" size="18" fill={normalIconColor} strokeWidth={4} />
+        重绘
       </div>
 
       <Modal
-        title={
-          <div className="image-restore-modal-title">
-            <div className="left-title">消除</div>
-            <div className="control-wrapper">
+        title="智能重绘"
+        okText="应用"
+        cancelText="取消"
+        open={showModal}
+        width={'80vw'}
+        getContainer={false}
+        destroyOnClose={true}
+        onCancel={() => {
+          setShowModal(false);
+        }}
+        onOk={() => {
+          const data = listData[selectIndex];
+          canvasRef.handler.commonHandler.setProperty('src', data);
+          setShowModal(false);
+        }}
+        okButtonProps={{ disabled: !(selectIndex > -1) }}
+      >
+        <div className="modal-wrapper">
+          <div className="image-inpainted-left-wrapper">
+            <div className="util-box">
               <div
                 className={`item-wrapper ${
                   (panelBox?.current as HTMLElement)?.hasChildNodes()
@@ -242,54 +293,76 @@ const Cutout = () => {
                 </div>
               </Dropdown>
             </div>
-          </div>
-        }
-        onCancel={() => {
-          setShowModal(false);
-        }}
-        open={showModal}
-        getContainer={false}
-        wrapClassName="image-restore-modal-wrapper"
-        width={700}
-        okText={'确认'}
-        cancelText={'取消'}
-        onOk={() => {
-          beginRestore();
-        }}
-        destroyOnClose={true}
-        forceRender={true}
-      >
-        <div className="image-wrapper">
-          <img ref={imgDom} className={imgWidth > imgHeight ? 'width' : 'height'} src={currentUrl} />
-          <div
-            className="panel"
-            onMouseEnter={() => {
-              setPanelWidth(imgDom.current.width);
-              setPanelHeight(imgDom.current.height);
-            }}
-          >
-            <div
-              className="panel-box"
-              style={{ width: `${panelWidth}px`, height: `${panelHeight}px` }}
-              ref={panelBox}
-              onMouseDown={() => {
-                setIsDrag(true);
-              }}
-              onMouseMove={(e) => {
-                e.stopPropagation();
-                if (!isDrag) {
-                  return;
-                }
+            <div className="img-box" ref={imgWrapperDom}>
+              <img ref={imgDom} src={currentUrl} />
+              <div
+                className="panel"
+                onMouseEnter={() => {
+                  setPanelWidth(imgDom.current.width);
+                  setPanelHeight(imgDom.current.height);
+                }}
+              >
+                <div
+                  className="panel-box"
+                  style={{ width: `${panelWidth}px`, height: `${panelHeight}px` }}
+                  ref={panelBox}
+                  onMouseDown={() => {
+                    setIsDrag(true);
+                  }}
+                  onMouseMove={(e) => {
+                    e.stopPropagation();
+                    if (!isDrag) {
+                      return;
+                    }
 
-                draw(e.clientX, e.clientY);
-              }}
-              onMouseUp={() => {
-                setIsDrag(false);
-              }}
-              onMouseLeave={() => {
-                setIsDrag(false);
-              }}
-            ></div>
+                    draw(e.clientX, e.clientY);
+                  }}
+                  onMouseUp={() => {
+                    setIsDrag(false);
+                  }}
+                  onMouseLeave={() => {
+                    setIsDrag(false);
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
+          <div className="image-inpainted-right-wrapper">
+            <div className="textarea-box">
+              <Input.TextArea
+                placeholder="描述你想要的图片内容，AI会帮您重绘图片，目前只支持英文。"
+                styles={{ textarea: { height: 200 } }}
+                value={textareaValue}
+                onChange={(e) => {
+                  setTextareaValue(e.target.value);
+                }}
+              ></Input.TextArea>
+            </div>
+            <div className="btn-box">
+              <Button
+                style={{ width: '100%' }}
+                type="primary"
+                size="large"
+                onClick={() => {
+                  beginInpainted();
+                }}
+              >
+                立即生成
+              </Button>
+            </div>
+            <div className="list-box">
+              {listData.map((item, index) => (
+                <div
+                  className={`list global-common-bg-color global-border-color ${selectIndex === index ? 'active' : ''}`}
+                  key={index}
+                  onClick={() => {
+                    setSelectIndex(index);
+                  }}
+                >
+                  <img src={item} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Modal>
@@ -297,4 +370,4 @@ const Cutout = () => {
   );
 };
 
-export default Cutout;
+export default Inpainted;

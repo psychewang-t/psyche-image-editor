@@ -8,5 +8,5 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["antd", "workarea"]
+  "cSpell.words": ["antd", "inpainted", "workarea"]
 }

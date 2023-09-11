@@ -42,7 +42,11 @@ const uploadFilePath: { [key: string]: string } = {
   // 修复图片的遮罩上传的图片
   restoreMaskUpload: 'restore/mask/upload',
   // 修复图片的上传图片
-  restoreUpload: 'restore/upload'
+  restoreUpload: 'restore/upload',
+  // 重绘图片的遮罩上传的图片
+  inpaintedMaskUpload: 'inpainted/mask/upload',
+  // 重绘图片的上传图片
+  inpaintedUpload: 'inpainted/upload'
 };
 
 // 上传图片
@@ -106,7 +110,7 @@ const uploadFile = async (path: string, file: File) =>
   });
 
 // 通过url判断图片的类型
-export const getImgTypeFromUrl = (url: string) => {
+const getImgTypeFromUrl = (url: string) => {
   const extension = url.match(/\.([^.?#]+)(?:[?#]|$)/);
 
   if (extension) {
@@ -137,7 +141,7 @@ export const getImgTypeFromUrl = (url: string) => {
 };
 
 // 通过base64判断图片的类型
-export const getImageTypeFromBase64 = (base64: string) => {
+const getImageTypeFromBase64 = (base64: string) => {
   const defaultPosition = 30;
   const header = base64.substring(0, defaultPosition);
 
@@ -161,7 +165,7 @@ export const getImageTypeFromBase64 = (base64: string) => {
 };
 
 // 判断图片是否有空的像素点
-export const hasTransparentPixels = (imgUrl: string) => {
+const hasTransparentPixels = (imgUrl: string) => {
   const img = new Image();
   img.crossOrigin = 'Anonymous';
   img.src = imgUrl;
@@ -198,7 +202,7 @@ export const hasTransparentPixels = (imgUrl: string) => {
 };
 
 // png图片转为jpg
-export const convertPngToJpg = (pngUrl: string, quality: number = 1) => {
+const convertPngToJpg = (pngUrl: string, quality: number = 1) => {
   const img = new Image();
   img.crossOrigin = 'Anonymous'; // 如果图片跨域，需要设置这个属性
   img.src = pngUrl;
@@ -220,4 +224,65 @@ export const convertPngToJpg = (pngUrl: string, quality: number = 1) => {
       console.error('Error loading image');
     };
   });
+};
+
+// file转arrBuffer
+export const fileToArrayBuffer = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      resolve(event.target.result);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+
+// 获取当前URL的类型
+const getUrlType = (data: string) => {
+  if (isURLString(data)) {
+    return getImgTypeFromUrl(data);
+  }
+
+  if (isBase64String(data)) {
+    return getImageTypeFromBase64(data);
+  }
+};
+
+// 给定的图片数据转为url，图片类型是jpg
+export const getImgUrl = async (data: string, type: string) => {
+  const imgType = getUrlType(data);
+  if (imgType === 'png') {
+    // png图片需要判断是否有空的像素，有的话需要转为jpg
+    const hasNullPixels = await hasTransparentPixels(data);
+    if (hasNullPixels) {
+      const newImgBase64 = await convertPngToJpg(data);
+      const newImgUrl = await base64ToUrlAsync(newImgBase64, `${type}Upload`);
+
+      return newImgUrl;
+    }
+
+    if (isURLString(data)) {
+      return data;
+    }
+
+    if (isBase64String(data)) {
+      const objUrl = await base64ToUrlAsync(data, `${type}Upload`);
+
+      return objUrl;
+    }
+  } else {
+    if (isURLString(data)) {
+      return data;
+    }
+
+    if (isBase64String(data)) {
+      const objUrl = await base64ToUrlAsync(data, `${type}Upload`);
+
+      return objUrl;
+    }
+  }
 };

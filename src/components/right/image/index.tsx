@@ -6,6 +6,7 @@ import ClipPath from '@/components/right/image/clip-path';
 import Replace from '@/components/right/image/replace';
 import Cutout from '@/components/right/image/cutout';
 import Restore from '@/components/right/image/restore';
+import Inpainted from '@/components/right/image/inpainted';
 
 import './index.less';
 
@@ -23,6 +24,9 @@ const Image = () => (
       <div className="line-box">
         <Cutout></Cutout>
         <Restore></Restore>
+      </div>
+      <div className="line-box">
+        <Inpainted></Inpainted>
       </div>
       <div className="global-right-border-line"></div>
       <Effect></Effect>

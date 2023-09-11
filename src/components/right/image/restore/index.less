@@ -38,12 +38,31 @@
     }
   }
   .image-wrapper {
-    max-width: 70vw;
     height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    background: linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.4) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.4) 75%,
+        rgba(0, 0, 0, 0.4) 100%
+      ),
+      linear-gradient(
+        45deg,
+        rgba(0, 0, 0, 0.4) 25%,
+        transparent 25%,
+        transparent 75%,
+        rgba(0, 0, 0, 0.4) 75%,
+        rgba(0, 0, 0, 0.4) 100%
+      );
+    /* 背景大小必须小于盒子的大小 */
+    background-size: 20px 20px;
+    /* 第二种渐变的偏移必须为为背景大小的一半 */
+    background-position: 0 0, 10px 10px;
     .width {
       width: 100%;
     }
