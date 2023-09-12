@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { text2img } from '@/server';
+import { text2img, getAITaskResult } from '@/server';
 import { useRequest } from 'ahooks';
 import { Input, Button, message } from 'antd';
 import { Square, RectangleOne, Rectangle } from '@icon-park/react';
@@ -10,36 +10,70 @@ import { Theme } from '@icon-park/react/lib/runtime';
 import { IContext } from '@/interface';
 import './index.less';
 
+const hiddenZIndex = -100;
+
 const Text2Img = () => {
-  const { canvasRef }: IContext = useIndexContext();
+  const { canvasRef, leftTab }: IContext = useIndexContext();
 
   const [dataList, setDataList] = useState([]);
   const [currentSize, setCurrentSize] = useState('square');
   const [textAreaValue, setTextAreaValue] = useState('');
   const [creating, setCreating] = useState(false);
 
-  const { data, loading, run } = useRequest(text2img, {
+  const {
+    data: createTaskData,
+    loading: createTaskLoading,
+    run: createTaskRun
+  } = useRequest(text2img, {
     manual: true,
     onError: (e: Error) => {
+      setCreating(false);
       message.error('文生图失败');
       console.error('文生图失败', e);
     }
   });
 
+  const {
+    data: taskResultData,
+    run: taskResultRun,
+    cancel: taskResultCancel
+  } = useRequest(getAITaskResult, {
+    pollingInterval: 3000,
+    manual: true,
+    pollingErrorRetryCount: 1,
+    onError: (e: Error) => {
+      setCreating(false);
+      message.destroy();
+      message.error('文生图任务结果获取失败！');
+      console.error('文生图任务结果获取失败！', e);
+    }
+  });
+
   useEffect(() => {
-    if (!loading && data) {
+    if (taskResultData?.status === 'succeeded') {
+      taskResultCancel();
       const copy = JSON.parse(JSON.stringify(dataList));
 
-      copy.unshift(data);
+      copy.unshift(taskResultData?.output[0]);
       setDataList(copy);
       setCreating(false);
     }
-  }, [loading]);
+  }, [taskResultData]);
+
+  useEffect(() => {
+    if (!createTaskLoading && createTaskData) {
+      if (createTaskData?.status === 'starting') {
+        taskResultRun(createTaskData.id);
+      } else {
+        message.error('任务创建失败，请重试！');
+      }
+    }
+  }, [createTaskData, createTaskLoading]);
 
   // 获取文生图的结果
   const getText2Img = async () => {
     const { width, height } = getSize();
-    run({
+    createTaskRun({
       prompt: textAreaValue,
       width,
       height
@@ -62,6 +96,7 @@ const Text2Img = () => {
   };
 
   const addImg = (url: string) => {
+    console.log('===>', url);
     canvasRef.handler.commonHandler.addImg(url);
   };
 
@@ -91,7 +126,7 @@ const Text2Img = () => {
   ];
 
   return (
-    <div className="text2img-wrapper">
+    <div className="text2img-wrapper" style={{ zIndex: leftTab === 'text2img' ? 1 : hiddenZIndex }}>
       <div className="input-wrapper">
         <div className="desc global-common-third-title">描述你想要的图片内容，AI会帮您创建图片。</div>
         <div className="desc global-common-third-title">目前只支持英文。</div>

@@ -5,7 +5,7 @@ import { base64ToUrlAsync, getImgUrl } from '@/utils/file';
 import { Modal, message, Dropdown, MenuProps, Slider } from 'antd';
 import { useIndexContext } from '@/context/userContext';
 import dom2Image from 'dom-to-image-improved';
-import { restore } from '@/server';
+import { restore, getAITaskResult } from '@/server';
 import { useRequest } from 'ahooks';
 
 import { IContext } from '@/interface';
@@ -15,7 +15,7 @@ const defaultPenWidth = 30;
 const defaultPanelSize = 500;
 
 const Cutout = () => {
-  const { canvasRef }: IContext = useIndexContext();
+  const { canvasRef, restoring, setRestoring }: IContext = useIndexContext();
 
   const panelBox = useRef(null);
   const imgDom = useRef(null);
@@ -32,7 +32,13 @@ const Cutout = () => {
 
   const [transaction, setTransaction] = useState([]);
 
-  const { data, loading, run } = useRequest(restore, {
+  const [currentObj, setCurrentObj] = useState<fabric.Image>();
+
+  const {
+    data: createTaskData,
+    loading: createTaskLoading,
+    run: createTaskRun
+  } = useRequest(restore, {
     manual: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (e: any) => {
@@ -48,29 +54,68 @@ const Cutout = () => {
     }
   });
 
-  useEffect(() => {
-    if (!loading && data) {
-      canvasRef.handler.commonHandler.setProperty('src', data);
+  const {
+    data: taskResultData,
+    run: taskResultRun,
+    cancel: taskResultCancel
+  } = useRequest(getAITaskResult, {
+    pollingInterval: 3000,
+    manual: true,
+    pollingErrorRetryCount: 1,
+    onError: (e: Error) => {
+      setRestoring(false);
       message.destroy();
+      message.error('消除任务结果获取失败！');
+      console.error('消除任务结果获取失败！', e);
     }
-  }, [loading]);
+  });
+
+  useEffect(() => {
+    if (taskResultData?.status === 'succeeded') {
+      taskResultCancel();
+      message.destroy();
+      message.success('消除成功！');
+      canvasRef.handler.commonHandler.setProperty('src', taskResultData?.output, currentObj);
+      setRestoring(false);
+    }
+  }, [taskResultData]);
+
+  useEffect(() => {
+    if (!createTaskLoading && createTaskData) {
+      if (createTaskData?.status === 'starting') {
+        taskResultRun(createTaskData.id);
+      } else {
+        message.destroy();
+        message.error('任务创建失败，请重试！');
+      }
+    }
+  }, [createTaskData, createTaskLoading]);
 
   const initModal = () => {
-    const currentObj = canvasRef.handler.canvas.getActiveObject() as fabric.Image;
-    if (!currentObj) {
+    if (restoring) {
+      message.warning('已有任务在进行中！');
+
       return;
     }
 
+    refresh();
+
+    const obj = canvasRef.handler.canvas.getActiveObject() as fabric.Image;
+    if (!obj) {
+      return;
+    }
+
+    setCurrentObj(obj);
     message.loading('正在初始化...');
 
     const img = new Image();
-    img.src = currentObj.getSrc();
+    img.src = obj.getSrc();
     img.onload = () => {
       message.destroy();
       setShowModal(true);
       setImgWidth(img.width);
       setImgHeight(img.height);
-      setCurrentUrl(currentObj.getSrc());
+      setCurrentUrl(obj.getSrc());
     };
   };
 
@@ -150,12 +195,13 @@ const Cutout = () => {
 
   // 开始修复
   const beginRestore = async () => {
+    setRestoring(true);
     message.loading('正在消除中', 0);
     setShowModal(false);
     const maskImgBase64 = await drawImage();
     const maskImgUrl = await base64ToUrlAsync(maskImgBase64, 'restoreMaskUpload');
     const imgUrl = await getImgUrl(currentUrl, 'restore');
-    run({ image: imgUrl, mask: maskImgUrl });
+    createTaskRun({ image: imgUrl, mask: maskImgUrl });
   };
 
   const items: MenuProps['items'] = [
@@ -256,11 +302,10 @@ const Cutout = () => {
         onOk={() => {
           beginRestore();
         }}
-        destroyOnClose={true}
         forceRender={true}
       >
         <div className="image-wrapper">
-          <img ref={imgDom} className={imgWidth > imgHeight ? 'width' : 'height'} src={currentUrl} />
+          <img ref={imgDom} className={imgWidth >= imgHeight ? 'width' : 'height'} src={currentUrl} />
           <div
             className="panel"
             onMouseEnter={() => {

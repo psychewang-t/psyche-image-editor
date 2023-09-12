@@ -3,24 +3,11 @@ import './axios';
 
 const url = 'https://image-editor-demo-1ex4iya7dd3fb3-1257477541.ap-guangzhou.app.tcloudbase.com';
 
-// AI获取任务结果
+// 获取AI任务结果
 export async function getAITaskResult(taskId: string) {
-  const loopNumber = 20;
-  const awaitTime = 3000;
-  for (let i = 0; i < loopNumber; i++) {
-    await delay(awaitTime);
-    const res = await axios.post(`${url}/getAITaskResult`, { taskId });
-    if (res?.data?.status === 'succeeded') {
-      return res?.data.output;
-    }
-  }
+  const axiosData = await axios.post(`${url}/getAITaskResult`, { taskId });
 
-  return true;
-}
-
-// 等待执行函数
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return axiosData.data;
 }
 
 // 文生图接口

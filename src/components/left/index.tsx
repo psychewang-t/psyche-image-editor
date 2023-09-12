@@ -31,8 +31,8 @@ const Left = () => {
           <span style={{ color: leftTab === 'text2img' ? activeIconColor : '' }}>文生图</span>
         </div>
       </div>
-      <div className="drawer-wrapper" style={{ width: leftTab === 'default' ? '0' : '330px' }}>
-        {leftTab === 'text2img' && <Text2Img></Text2Img>}
+      <div className="drawer-wrapper" style={{ visibility: leftTab === 'default' ? 'hidden' : 'visible' }}>
+        <Text2Img></Text2Img>
       </div>
     </div>
   );

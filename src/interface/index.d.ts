@@ -20,4 +20,10 @@ export interface IContext {
   setTemplateFont?: React.Dispatch<React.SetStateAction<IFont[]>>;
   leftTab?: string;
   setLeftTab?: React.Dispatch<React.SetStateAction<string>>;
+  cutting?: boolean;
+  setCutting?: React.Dispatch<React.SetStateAction<boolean>>;
+  restoring?: boolean;
+  setRestoring?: React.Dispatch<React.SetStateAction<boolean>>;
+  inpainting?: boolean;
+  setInpainting?: React.Dispatch<React.SetStateAction<boolean>>;
 }

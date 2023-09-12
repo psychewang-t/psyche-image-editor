@@ -15,7 +15,7 @@ const defaultPenWidth = 30;
 const defaultPanelSize = 500;
 
 const Inpainted = () => {
-  const { canvasRef }: IContext = useIndexContext();
+  const { canvasRef, inpainting, setInpainting }: IContext = useIndexContext();
 
   const panelBox = useRef(null);
   const imgDom = useRef(null);
@@ -53,24 +53,29 @@ const Inpainted = () => {
 
   const {
     data: taskResultData,
-    loading: taskResultLoading,
-    run: taskResultRun
+    run: taskResultRun,
+    cancel: taskResultCancel
   } = useRequest(getAITaskResult, {
+    pollingInterval: 3000,
     manual: true,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: (e: any) => {
+    pollingErrorRetryCount: 1,
+    onError: (e: Error) => {
+      setInpainting(false);
       message.destroy();
-      console.error('重绘任务结果获取失败！', e);
+      message.error('消除任务结果获取失败！');
+      console.error('消除任务结果获取失败！', e);
     }
   });
 
   useEffect(() => {
-    if (!taskResultLoading && taskResultData) {
+    if (taskResultData?.status === 'succeeded') {
+      taskResultCancel();
       message.destroy();
       message.success('重绘成功！');
-      setListData(listData.concat(taskResultData));
+      setListData(listData.concat(taskResultData?.output));
+      setInpainting(false);
     }
-  }, [taskResultData, taskResultLoading]);
+  }, [taskResultData]);
 
   useEffect(() => {
     if (!createTaskLoading && createTaskData) {
@@ -178,12 +183,19 @@ const Inpainted = () => {
 
   // 开始修复
   const beginInpainted = async () => {
+    if (inpainting) {
+      message.warning('已有任务在进行中！');
+
+      return;
+    }
+
     if (!textareaValue) {
       message.warning('请输入prompt后重试！');
 
       return;
     }
 
+    setInpainting(true);
     message.loading('正在重绘中...', 0);
 
     const maskImgBase64 = await drawImage();
@@ -219,7 +231,6 @@ const Inpainted = () => {
         open={showModal}
         width={'80vw'}
         getContainer={false}
-        destroyOnClose={true}
         onCancel={() => {
           setShowModal(false);
         }}
