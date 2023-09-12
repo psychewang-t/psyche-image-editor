@@ -126,7 +126,7 @@ const Text2Img = () => {
   ];
 
   return (
-    <div className="text2img-wrapper" style={{ zIndex: leftTab === 'text2img' ? 1 : hiddenZIndex }}>
+    <div className="text2img-wrapper" style={{ zIndex: leftTab === 'text2img' ? 0 : hiddenZIndex }}>
       <div className="input-wrapper">
         <div className="desc global-common-third-title">描述你想要的图片内容，AI会帮您创建图片。</div>
         <div className="desc global-common-third-title">目前只支持英文。</div>
