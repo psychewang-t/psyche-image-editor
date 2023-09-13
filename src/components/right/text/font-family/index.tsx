@@ -62,7 +62,7 @@ const FontFamily = () => {
   const selectFont = async (font: IFont) => {
     const loadFont = await canvasRef.handler.commonHandler.loadFontAsync(font.name, font.woffUrl);
     if (loadFont) {
-      canvasRef.handler.commonHandler.setProperty('fontFamily', font.name);
+      canvasRef.handler.commonHandler.setProperty({ key: 'fontFamily', value: font.name });
       setLoadingIndex(-1);
 
       setTemplateFontData({ canvasRef, setTemplateFont });

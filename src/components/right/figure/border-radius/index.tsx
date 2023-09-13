@@ -35,7 +35,7 @@ const BorderRadius = () => {
   };
 
   const handleSetOpacity = (o: number) => {
-    canvasRef.handler.commonHandler.setProperty('borderRadius', o);
+    canvasRef.handler.commonHandler.setProperty({ key: 'borderRadius', value: o });
     setBorderRadius(o);
   };
 

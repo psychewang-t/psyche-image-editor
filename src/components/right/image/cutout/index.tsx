@@ -22,7 +22,7 @@ const Cutout = () => {
   } = useRequest(cutout, {
     manual: true,
     onError: (e: Error) => {
-      message.destroy();
+      message.destroy('cutoutLoading');
       console.error('扣图任务创建失败！', e);
     }
   });
@@ -37,18 +37,31 @@ const Cutout = () => {
     pollingErrorRetryCount: 1,
     onError: (e: Error) => {
       setCutting(false);
-      message.destroy();
+      message.destroy('cutoutLoading');
       message.error('扣图任务结果获取失败！');
       console.error('扣图任务结果获取失败！', e);
+      taskResultCancel();
     }
   });
 
   useEffect(() => {
     if (taskResultData?.status === 'succeeded') {
       taskResultCancel();
-      message.destroy();
-      message.success('抠图成功！');
-      canvasRef.handler.commonHandler.setProperty('src', taskResultData?.output, currentObj);
+
+      canvasRef.handler.commonHandler.setProperty({
+        key: 'src',
+        value: taskResultData?.output,
+        obj: currentObj,
+        callBack: () => {
+          message.destroy('cutoutLoading');
+          message.success('抠图成功！');
+          setCutting(false);
+        }
+      });
+    } else if (taskResultData?.status === 'failed') {
+      message.destroy('cutoutLoading');
+      message.error('扣图任务结果获取失败！');
+      taskResultCancel();
       setCutting(false);
     }
   }, [taskResultData]);
@@ -58,7 +71,7 @@ const Cutout = () => {
       if (createTaskData?.status === 'starting') {
         taskResultRun(createTaskData.id);
       } else {
-        message.destroy();
+        message.destroy('cutoutLoading');
         message.error('任务创建失败，请重试！');
       }
     }
@@ -72,7 +85,7 @@ const Cutout = () => {
     }
 
     setCutting(true);
-    message.loading('正在抠图中', 0);
+    message.loading({ content: '正在抠图中', duration: 0, key: 'cutoutLoading' });
 
     const obj = canvasRef.handler.canvas.getActiveObject() as fabric.Image;
     if (!obj) {
@@ -92,7 +105,7 @@ const Cutout = () => {
     if (isBase64String(src)) {
       const imgUrl = await base64ToUrlAsync(src, 'cutoutUpload');
       if (!imgUrl) {
-        message.destroy();
+        message.destroy('cutoutLoading');
         message.error('图片上传失败失败');
       }
 

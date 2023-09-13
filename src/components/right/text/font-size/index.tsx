@@ -33,7 +33,7 @@ const FontSize = () => {
         value={fontSize}
         onChange={setFontSize}
         onPressEnter={() => {
-          canvasRef.handler.commonHandler.setProperty('fontSize', fontSize);
+          canvasRef.handler.commonHandler.setProperty({ key: 'fontSize', value: fontSize });
         }}
       ></InputNumber>
     </div>

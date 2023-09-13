@@ -165,41 +165,41 @@ const getImageTypeFromBase64 = (base64: string) => {
 };
 
 // 判断图片是否有空的像素点
-const hasTransparentPixels = (imgUrl: string) => {
-  const img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.src = imgUrl;
+// const hasTransparentPixels = (imgUrl: string) => {
+//   const img = new Image();
+//   img.crossOrigin = 'Anonymous';
+//   img.src = imgUrl;
 
-  return new Promise<boolean>((resolve) => {
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
+//   return new Promise<boolean>((resolve) => {
+//     img.onload = () => {
+//       const canvas = document.createElement('canvas');
+//       const ctx = canvas.getContext('2d');
+//       canvas.width = img.width;
+//       canvas.height = img.height;
+//       ctx.drawImage(img, 0, 0);
 
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const data = imageData.data;
+//       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+//       const data = imageData.data;
 
-      let hasTransparent = false;
-      const judge = 4;
-      const position = 3;
-      const colorDefault = 255;
-      for (let i = 0; i < data.length; i += judge) {
-        if (data[i + position] < colorDefault) {
-          hasTransparent = true;
-          break;
-        }
-      }
+//       let hasTransparent = false;
+//       const judge = 4;
+//       const position = 3;
+//       const colorDefault = 255;
+//       for (let i = 0; i < data.length; i += judge) {
+//         if (data[i + position] < colorDefault) {
+//           hasTransparent = true;
+//           break;
+//         }
+//       }
 
-      resolve(hasTransparent);
-    };
+//       resolve(hasTransparent);
+//     };
 
-    img.onerror = () => {
-      console.error('Error loading image');
-    };
-  });
-};
+//     img.onerror = () => {
+//       console.error('Error loading image');
+//     };
+//   });
+// };
 
 // png图片转为jpg
 const convertPngToJpg = (pngUrl: string, quality: number = 1) => {
@@ -256,33 +256,20 @@ const getUrlType = (data: string) => {
 export const getImgUrl = async (data: string, type: string) => {
   const imgType = getUrlType(data);
   if (imgType === 'png') {
-    // png图片需要判断是否有空的像素，有的话需要转为jpg
-    const hasNullPixels = await hasTransparentPixels(data);
-    if (hasNullPixels) {
-      const newImgBase64 = await convertPngToJpg(data);
-      const newImgUrl = await base64ToUrlAsync(newImgBase64, `${type}Upload`);
+    // png图片需要转为jpg
+    const newImgBase64 = await convertPngToJpg(data);
+    const newImgUrl = await base64ToUrlAsync(newImgBase64, `${type}Upload`);
 
-      return newImgUrl;
-    }
+    return newImgUrl;
+  }
 
-    if (isURLString(data)) {
-      return data;
-    }
+  if (isURLString(data)) {
+    return data;
+  }
 
-    if (isBase64String(data)) {
-      const objUrl = await base64ToUrlAsync(data, `${type}Upload`);
+  if (isBase64String(data)) {
+    const objUrl = await base64ToUrlAsync(data, `${type}Upload`);
 
-      return objUrl;
-    }
-  } else {
-    if (isURLString(data)) {
-      return data;
-    }
-
-    if (isBase64String(data)) {
-      const objUrl = await base64ToUrlAsync(data, `${type}Upload`);
-
-      return objUrl;
-    }
+    return objUrl;
   }
 };

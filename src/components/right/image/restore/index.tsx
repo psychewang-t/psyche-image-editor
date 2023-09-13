@@ -42,7 +42,7 @@ const Cutout = () => {
     manual: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (e: any) => {
-      message.destroy();
+      message.destroy('restoreLoading');
       if (e.response.data.code === 'ETIMEDOUT') {
         const showTime = 5;
         message.info('模型正在启动中，请3～5分钟后重试！', showTime);
@@ -64,18 +64,31 @@ const Cutout = () => {
     pollingErrorRetryCount: 1,
     onError: (e: Error) => {
       setRestoring(false);
-      message.destroy();
+      message.destroy('restoreLoading');
       message.error('消除任务结果获取失败！');
       console.error('消除任务结果获取失败！', e);
+      taskResultCancel();
     }
   });
 
   useEffect(() => {
     if (taskResultData?.status === 'succeeded') {
       taskResultCancel();
-      message.destroy();
-      message.success('消除成功！');
-      canvasRef.handler.commonHandler.setProperty('src', taskResultData?.output, currentObj);
+
+      canvasRef.handler.commonHandler.setProperty({
+        key: 'src',
+        value: taskResultData?.output,
+        obj: currentObj,
+        callBack: () => {
+          message.destroy('restoreLoading');
+          message.success('消除成功！');
+          setRestoring(false);
+        }
+      });
+    } else if (taskResultData?.status === 'failed') {
+      message.destroy('restoreLoading');
+      message.error('消除任务结果获取失败！');
+      taskResultCancel();
       setRestoring(false);
     }
   }, [taskResultData]);
@@ -106,12 +119,12 @@ const Cutout = () => {
     }
 
     setCurrentObj(obj);
-    message.loading('正在初始化...');
+    message.loading({ content: '正在初始化...', duration: 0, key: 'restoreInit' });
 
     const img = new Image();
     img.src = obj.getSrc();
     img.onload = () => {
-      message.destroy();
+      message.destroy('restoreInit');
       setShowModal(true);
       setImgWidth(img.width);
       setImgHeight(img.height);
@@ -196,7 +209,7 @@ const Cutout = () => {
   // 开始修复
   const beginRestore = async () => {
     setRestoring(true);
-    message.loading('正在消除中', 0);
+    message.loading({ content: '正在消除中', duration: 0, key: 'restoreLoading' });
     setShowModal(false);
     const maskImgBase64 = await drawImage();
     const maskImgUrl = await base64ToUrlAsync(maskImgBase64, 'restoreMaskUpload');

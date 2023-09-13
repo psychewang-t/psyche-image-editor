@@ -48,8 +48,7 @@ const FontSpace = () => {
                 distance = max;
               }
 
-              const currentObj = canvasRef.handler.canvas.getActiveObject();
-              canvasRef.handler.commonHandler.setProperty('charSpacing', distance, currentObj, false);
+              canvasRef.handler.commonHandler.setProperty({ key: 'charSpacing', value: distance, save: false });
               setSpaceValue(Math.round(distance));
             };
 
@@ -70,8 +69,7 @@ const FontSpace = () => {
         value={spaceValue}
         onChange={(val) => {
           setSpaceValue(Math.round(val));
-          const currentObj = canvasRef.handler.canvas.getActiveObject();
-          canvasRef.handler.commonHandler.setProperty('charSpacing', val, currentObj, false);
+          canvasRef.handler.commonHandler.setProperty({ key: 'charSpacing', value: val, save: false });
         }}
         onBlur={() => {
           canvasRef.handler.transactionHandler.save('property');

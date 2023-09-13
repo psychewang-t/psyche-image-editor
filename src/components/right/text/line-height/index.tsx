@@ -49,8 +49,7 @@ const LineHeight = () => {
                 distance = max;
               }
 
-              const currentObj = canvasRef.handler.canvas.getActiveObject();
-              canvasRef.handler.commonHandler.setProperty('lineHeight', distance, currentObj, false);
+              canvasRef.handler.commonHandler.setProperty({ key: 'lineHeight', value: distance, save: false });
               setHeightValue(Number(distance.toFixed(1)));
             };
 
@@ -72,8 +71,7 @@ const LineHeight = () => {
         value={heightValue}
         onChange={(val) => {
           setHeightValue(Number(val.toFixed(1)));
-          const currentObj = canvasRef.handler.canvas.getActiveObject();
-          canvasRef.handler.commonHandler.setProperty('lineHeight', val, currentObj, false);
+          canvasRef.handler.commonHandler.setProperty({ key: 'lineHeight', value: val, save: false });
         }}
         onBlur={() => {
           canvasRef.handler.transactionHandler.save('property');

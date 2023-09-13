@@ -25,7 +25,7 @@ const TextStyle = () => {
   };
 
   const handleSetTextAlign = (align: string) => {
-    canvasRef.handler.commonHandler.setProperty('textAlign', align);
+    canvasRef.handler.commonHandler.setProperty({ key: 'textAlign', value: align });
     setTextAlign(align);
   };
 

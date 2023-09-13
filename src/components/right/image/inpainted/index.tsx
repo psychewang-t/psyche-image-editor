@@ -46,7 +46,7 @@ const Inpainted = () => {
     manual: true,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (e: any) => {
-      message.destroy();
+      message.destroy('inpaintedLoading');
       console.error('重绘任务创建失败！', e);
     }
   });
@@ -61,18 +61,24 @@ const Inpainted = () => {
     pollingErrorRetryCount: 1,
     onError: (e: Error) => {
       setInpainting(false);
-      message.destroy();
+      message.destroy('inpaintedLoading');
       message.error('消除任务结果获取失败！');
       console.error('消除任务结果获取失败！', e);
+      taskResultCancel();
     }
   });
 
   useEffect(() => {
     if (taskResultData?.status === 'succeeded') {
       taskResultCancel();
-      message.destroy();
+      message.destroy('inpaintedLoading');
       message.success('重绘成功！');
       setListData(listData.concat(taskResultData?.output));
+      setInpainting(false);
+    } else if (taskResultData?.status === 'failed') {
+      message.destroy('inpaintedLoading');
+      message.error('消除任务结果获取失败！');
+      taskResultCancel();
       setInpainting(false);
     }
   }, [taskResultData]);
@@ -82,7 +88,7 @@ const Inpainted = () => {
       if (createTaskData?.status === 'starting') {
         taskResultRun(createTaskData.id);
       } else {
-        message.destroy();
+        message.destroy('inpaintedLoading');
         message.error('任务创建失败，请重试！');
       }
     }
@@ -94,16 +100,17 @@ const Inpainted = () => {
       return;
     }
 
-    message.loading('正在初始化...');
+    message.loading({ content: '正在初始化...', duration: 0, key: 'inpaintedInit' });
 
     const img = new Image();
     img.src = currentObj.getSrc();
     img.onload = () => {
-      message.destroy();
+      message.destroy('inpaintedInit');
       setShowModal(true);
       setImgWidth(img.width);
       setImgHeight(img.height);
       setCurrentUrl(currentObj.getSrc());
+      refresh();
     };
   };
 
@@ -174,7 +181,7 @@ const Inpainted = () => {
   // 重新画图
   const refresh = () => {
     const dom = panelBox.current as HTMLElement;
-    while (dom.firstChild) {
+    while (dom?.firstChild) {
       dom.removeChild(dom.firstChild);
     }
 
@@ -196,7 +203,7 @@ const Inpainted = () => {
     }
 
     setInpainting(true);
-    message.loading('正在重绘中...', 0);
+    message.loading({ content: '正在重绘中', duration: 0, key: 'inpaintedLoading' });
 
     const maskImgBase64 = await drawImage();
     const maskImgUrl = await base64ToUrlAsync(maskImgBase64, 'inpaintedMaskUpload');
@@ -236,7 +243,7 @@ const Inpainted = () => {
         }}
         onOk={() => {
           const data = listData[selectIndex];
-          canvasRef.handler.commonHandler.setProperty('src', data);
+          canvasRef.handler.commonHandler.setProperty({ key: 'src', value: data });
           setShowModal(false);
         }}
         okButtonProps={{ disabled: !(selectIndex > -1) }}
@@ -342,7 +349,6 @@ const Inpainted = () => {
             <div className="textarea-box">
               <Input.TextArea
                 placeholder="描述你想要的图片内容，AI会帮您重绘图片，目前只支持英文。"
-                styles={{ textarea: { height: 200 } }}
                 value={textareaValue}
                 onChange={(e) => {
                   setTextareaValue(e.target.value);

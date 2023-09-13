@@ -42,10 +42,10 @@ const TextStyle = () => {
           onClick={() => {
             if (fontWeight === 'bold') {
               setFontWeight('normal');
-              canvasRef.handler.commonHandler.setProperty('fontWeight', 'normal');
+              canvasRef.handler.commonHandler.setProperty({ key: 'fontWeight', value: 'normal' });
             } else {
               setFontWeight('bold');
-              canvasRef.handler.commonHandler.setProperty('fontWeight', 'bold');
+              canvasRef.handler.commonHandler.setProperty({ key: 'fontWeight', value: 'bold' });
             }
           }}
         />
@@ -60,10 +60,10 @@ const TextStyle = () => {
           onClick={() => {
             if (fontStyle === 'italic') {
               setFontStyle('normal');
-              canvasRef.handler.commonHandler.setProperty('fontStyle', 'normal');
+              canvasRef.handler.commonHandler.setProperty({ key: 'fontStyle', value: 'normal' });
             } else {
               setFontStyle('italic');
-              canvasRef.handler.commonHandler.setProperty('fontStyle', 'italic');
+              canvasRef.handler.commonHandler.setProperty({ key: 'fontStyle', value: 'italic' });
             }
           }}
         />
@@ -76,7 +76,7 @@ const TextStyle = () => {
           className="global-icon-hover"
           fill={underline ? activeIconColor : normalIconColor}
           onClick={() => {
-            canvasRef.handler.commonHandler.setProperty('underline', !underline);
+            canvasRef.handler.commonHandler.setProperty({ key: 'underline', value: !underline });
             setUnderline(!underline);
           }}
         />
@@ -89,7 +89,7 @@ const TextStyle = () => {
           className="global-icon-hover"
           fill={linethrough ? activeIconColor : normalIconColor}
           onClick={() => {
-            canvasRef.handler.commonHandler.setProperty('linethrough', !linethrough);
+            canvasRef.handler.commonHandler.setProperty({ key: 'linethrough', value: !linethrough });
             setLinethrough(!linethrough);
           }}
         />

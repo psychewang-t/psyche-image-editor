@@ -12,7 +12,7 @@ const FlipBtn = () => {
   const onClick = (key: string) => {
     const currentObj = canvasRef.handler.canvas.getActiveObject();
     const val = !currentObj[key as keyof fabric.Object];
-    canvasRef.handler.commonHandler.setProperty(key as keyof fabric.Object, val);
+    canvasRef.handler.commonHandler.setProperty({ key: key as keyof fabric.Object, value: val });
   };
 
   const items: MenuProps['items'] = [

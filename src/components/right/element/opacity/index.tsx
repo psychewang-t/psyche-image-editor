@@ -34,7 +34,7 @@ const Opacity = () => {
           max={100}
           onChange={setOpacity}
           onAfterChange={(val: number) => {
-            canvasRef.handler.commonHandler.setProperty('opacity', val / PERCENT);
+            canvasRef.handler.commonHandler.setProperty({ key: 'opacity', value: val / PERCENT });
           }}
           value={typeof opacity === 'number' ? opacity : 0}
           className="opacity-slider"
@@ -49,7 +49,7 @@ const Opacity = () => {
           value={opacity}
           onChange={setOpacity}
           onPressEnter={() => {
-            canvasRef.handler.commonHandler.setProperty('opacity', opacity / PERCENT);
+            canvasRef.handler.commonHandler.setProperty({ key: 'opacity', value: opacity / PERCENT });
           }}
           className="opacity-input"
           formatter={(value) => `${value}%`}
