@@ -18,6 +18,10 @@ const CanvasBg = () => {
   const { isGradient } = useColorPicker(colorValue, setColorValue);
 
   useEffect(() => {
+    if (showColorPicker) {
+      return;
+    }
+
     initWorkareaColor();
   }, [updateKey]);
 
